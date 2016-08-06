@@ -14,7 +14,6 @@
           <version>1.4.0.RELEASE</version>
     </parent>
 
-
     <!-- Add typical dependencies for a web application -->
         <dependencies>
         <dependency>
@@ -32,6 +31,12 @@
         <artifactId>spring-boot-starter-tomcat</artifactId>
         <scope>provided</scope>
     </dependency>
+    <!-- For @Inject and @Named -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
     </dependencies>
 
     <!-- Package as an executable jar -->
