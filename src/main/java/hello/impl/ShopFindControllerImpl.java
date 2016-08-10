@@ -17,6 +17,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -53,10 +54,10 @@ public class ShopFindControllerImpl implements ShopFindController {
     }
 
     @Override
-    public ResponseEntity<ShopDetailsResponse> getShop(@RequestParam(value = "latitude") Double latitude,
-            @RequestParam(value = "longitude") Double longitude) {
+    public ResponseEntity<ShopDetailsResponse> getShop(@PathVariable("latitude") Double latitude,
+            @PathVariable("longitude") Double longitude) {
         System.out.println("latitude = " + latitude.toString());
-        System.out.println("longitude = " + longitude.toString());
+        System.out.println("longitude = " + longitude.doubleValue());
         ShopDetailsResponse response = null;
         response = shopService.getShopDetails(latitude, longitude);
         return buildFinalResponse(response);
