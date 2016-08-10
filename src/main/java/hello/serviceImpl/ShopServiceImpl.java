@@ -12,7 +12,6 @@ import hello.service.ShopService;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -69,7 +68,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public ShopDetailsResponse getShopDetails(BigInteger latitude, BigInteger longitude) {
+    public ShopDetailsResponse getShopDetails(Double latitude, Double longitude) {
         String reverseGeoCodingRequest = null;
         String reverseGeoCodingResponse = null;
         reverseGeoCodingRequest = buildRequestForReverseGeoCoding(latitude, longitude);
@@ -107,7 +106,7 @@ public class ShopServiceImpl implements ShopService {
         return url.toString();
     }
 
-    private String buildRequestForReverseGeoCoding(BigInteger latitude, BigInteger longitude) {
+    private String buildRequestForReverseGeoCoding(Double latitude, Double longitude) {
         StringBuilder url = new StringBuilder();
         url.append("https://maps.googleapis.com/maps/api/geocode/json?latlng=");
         url.append(latitude);
