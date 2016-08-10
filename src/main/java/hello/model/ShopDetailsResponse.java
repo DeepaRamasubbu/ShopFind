@@ -1,10 +1,12 @@
 package hello.model;
 
+import org.springframework.hateoas.ResourceSupport;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_NULL)
-public class ShopDetailsResponse {
+public class ShopDetailsResponse extends ResourceSupport {
     private String shopName;
     private ShopAddress shopAddress;
     private double latitiude;
