@@ -1,14 +1,14 @@
-package hello;
-
-import hello.model.Greeting;
-import hello.model.ShopDetailsRequest;
-import hello.model.ShopDetailsResponse;
+package shopFind;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import shopFind.model.Greeting;
+import shopFind.model.ShopDetailsRequest;
+import shopFind.model.ShopDetailsResponse;
 
 @RestController
 @RequestMapping("/")

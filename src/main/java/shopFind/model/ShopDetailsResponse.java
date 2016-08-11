@@ -1,4 +1,4 @@
-package hello.model;
+package shopFind.model;
 
 import org.springframework.hateoas.ResourceSupport;
 

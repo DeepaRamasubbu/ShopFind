@@ -1,13 +1,4 @@
-package hello.serviceImpl;
-
-import hello.model.AddressComponent;
-import hello.model.GeoCode;
-import hello.model.GeoCodeResponse;
-import hello.model.Response;
-import hello.model.ShopAddress;
-import hello.model.ShopDetailsRequest;
-import hello.model.ShopDetailsResponse;
-import hello.service.ShopService;
+package shopFind.serviceImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,6 +15,15 @@ import java.util.List;
 import javax.inject.Named;
 
 import org.springframework.util.StringUtils;
+
+import shopFind.model.AddressComponent;
+import shopFind.model.GeoCode;
+import shopFind.model.GeoCodeResponse;
+import shopFind.model.Response;
+import shopFind.model.ShopAddress;
+import shopFind.model.ShopDetailsRequest;
+import shopFind.model.ShopDetailsResponse;
+import shopFind.service.ShopService;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;

@@ -1,7 +1,7 @@
-package hello.service;
+package shopFind.service;
 
-import hello.model.ShopDetailsRequest;
-import hello.model.ShopDetailsResponse;
+import shopFind.model.ShopDetailsRequest;
+import shopFind.model.ShopDetailsResponse;
 
 public interface ShopService {
 

@@ -1,4 +1,4 @@
-package hello.model;
+package shopFind.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

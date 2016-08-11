@@ -1,11 +1,6 @@
-package hello.impl;
+package shopFind.impl;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import hello.ShopFindController;
-import hello.model.Greeting;
-import hello.model.ShopDetailsRequest;
-import hello.model.ShopDetailsResponse;
-import hello.service.ShopService;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -19,13 +14,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import shopFind.ShopFindController;
+import shopFind.model.Greeting;
+import shopFind.model.ShopDetailsRequest;
+import shopFind.model.ShopDetailsResponse;
+import shopFind.service.ShopService;
+
 @Named
 public class ShopFindControllerImpl implements ShopFindController {
 
     @Inject
     private ShopService shopService;
 
-    private static final String template = "Hello, %s!";
+    private static final String template = "shopFind, %s!";
     private final AtomicLong counter = new AtomicLong();
 
     /*
@@ -67,7 +68,7 @@ public class ShopFindControllerImpl implements ShopFindController {
             if (response.getResponse().getErrorCode()) {
 
                 response.add(linkTo(ShopFindController.class).slash("addShop").withRel("self"));
-                response.add(linkTo(ShopFindController.class).slash(response.getLatitiude())
+                response.add(linkTo(ShopFindController.class).slash("getShop").slash(response.getLatitiude())
                         .slash(response.getLongitude()).withRel("get"));
 
                 return new ResponseEntity<ShopDetailsResponse>(response, HttpStatus.CREATED);
