@@ -7,8 +7,6 @@ import hello.model.ShopDetailsRequest;
 import hello.model.ShopDetailsResponse;
 import hello.service.ShopService;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.inject.Inject;
@@ -69,17 +67,8 @@ public class ShopFindControllerImpl implements ShopFindController {
             if (response.getResponse().getErrorCode()) {
 
                 response.add(linkTo(ShopFindController.class).slash("addShop").withRel("self"));
-                try {
-                    StringBuilder tempURL = new StringBuilder();
-                    tempURL.append("getShop?latitude=" + response.getLatitiude());
-                    tempURL.append(URLEncoder.encode("&", "UTF-8"));
-                    tempURL.append("longitude=" + response.getLongitude());
-                    System.out.println("tempurl = " + tempURL);
-                    response.add(linkTo(ShopFindController.class).slash(tempURL).withRel("get"));
-                } catch (UnsupportedEncodingException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                response.add(linkTo(ShopFindController.class).slash(response.getLatitiude())
+                        .slash(response.getLongitude()).withRel("get"));
 
                 return new ResponseEntity<ShopDetailsResponse>(response, HttpStatus.CREATED);
             } else
