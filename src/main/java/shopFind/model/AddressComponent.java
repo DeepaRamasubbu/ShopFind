@@ -1,5 +1,8 @@
 package shopFind.model;
 
+/*
+ * Class that has address details
+ */
 import java.util.ArrayList;
 import java.util.Collection;
 

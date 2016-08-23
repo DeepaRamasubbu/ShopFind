@@ -2,6 +2,9 @@ package shopFind.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/*
+ * Class that has Area details
+ */
 public class Area {
 
     @JsonProperty("southwest")

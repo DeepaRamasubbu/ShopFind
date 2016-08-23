@@ -2,6 +2,9 @@ package shopFind.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/*
+ * Class that has geometrical details
+ */
 public class Geometry {
 
     private Location location;

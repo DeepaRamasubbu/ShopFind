@@ -3,6 +3,9 @@ package shopFind.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+/*
+ * Class containing response details
+ */
 @JsonInclude(Include.NON_NULL)
 public class Response {
     private String errorMessage;

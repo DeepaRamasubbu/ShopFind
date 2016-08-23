@@ -12,14 +12,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import shopFind.ShopFindController;
-import shopFind.model.Greeting;
 import shopFind.model.ShopDetailsRequest;
 import shopFind.model.ShopDetailsResponse;
 import shopFind.service.ShopService;
 
+/*
+ * Implementation class of ShopFindController
+ */
 @Named
 public class ShopFindControllerImpl implements ShopFindController {
 
@@ -30,7 +31,7 @@ public class ShopFindControllerImpl implements ShopFindController {
     private final AtomicLong counter = new AtomicLong();
 
     /*
-     * Method that implements the controllder class addShop , calls the service addShop to add teh shop details
+     * Method that implements the controller class addShop , calls the service addShop to add teh shop details
      * @param ShopDetailsRequest - incoming request
      * @return instance of ResponseEntity 
      */
@@ -42,21 +43,14 @@ public class ShopFindControllerImpl implements ShopFindController {
 
     }
 
-    public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return new Greeting(counter.incrementAndGet(), String.format(template, name));
-    }
-
-    @Override
-    public String index() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+    /*
+     * Method that implements controller class getShop
+     * @param Double latitude and longitude
+     * 
+     */
     @Override
     public ResponseEntity<ShopDetailsResponse> getShop(@PathVariable("latitude") Double latitude,
             @PathVariable("longitude") Double longitude) {
-        System.out.println("latitude = " + latitude.toString());
-        System.out.println("longitude = " + longitude.doubleValue());
         ShopDetailsResponse response = null;
         response = shopService.getShopDetails(latitude, longitude);
         return buildFinalResponse(response);
@@ -75,6 +69,12 @@ public class ShopFindControllerImpl implements ShopFindController {
             } else
                 return new ResponseEntity<ShopDetailsResponse>(response, HttpStatus.OK);
         }
+        return null;
+    }
+
+    @Override
+    public String index() {
+        // TODO Auto-generated method stub
         return null;
     }
 }

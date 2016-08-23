@@ -2,6 +2,9 @@ package shopFind.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/*
+ * Class that has ShopAddress 
+ */
 public class ShopAddress {
     @JsonProperty(value = "shop_number")
     private String shopNumber;

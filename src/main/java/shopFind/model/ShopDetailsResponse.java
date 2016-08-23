@@ -5,6 +5,9 @@ import org.springframework.hateoas.ResourceSupport;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+/*
+ * Class that maps ShopDetailsResponse
+ */
 @JsonInclude(Include.NON_NULL)
 public class ShopDetailsResponse extends ResourceSupport {
     private String shopName;

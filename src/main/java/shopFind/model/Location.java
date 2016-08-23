@@ -1,5 +1,8 @@
 package shopFind.model;
 
+/*
+ * Class that has location details
+ */
 public class Location {
     private double lat;
     private double lng;

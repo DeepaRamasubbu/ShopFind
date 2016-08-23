@@ -5,6 +5,9 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/*
+ * Class that maps Geocode response
+ */
 public class GeoCode {
     private Collection<String> types = new ArrayList<String>();
     private String formatted_address;

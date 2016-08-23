@@ -67,6 +67,11 @@ public class ShopServiceImpl implements ShopService {
 
     }
 
+    /*
+     * Method that gets the shop details
+     * @param latitude.longitude
+     * @response ShopDetailsResponse
+     */
     @Override
     public ShopDetailsResponse getShopDetails(Double latitude, Double longitude) {
         String reverseGeoCodingRequest = null;
@@ -91,7 +96,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
     private String buildRequestForGeocoding(ShopDetailsRequest request) {
-        //
+
         //https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY
         StringBuilder url = new StringBuilder();
         url.append("https://maps.googleapis.com/maps/api/geocode/json?address=");
@@ -195,7 +200,6 @@ public class ShopServiceImpl implements ShopService {
 
         }
         in.close();
-        //print result
         System.out.println(response.toString());
         return response.toString();
     }
