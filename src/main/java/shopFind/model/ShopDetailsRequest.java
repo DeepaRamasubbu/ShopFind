@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /*
  * Class that maps ShopDetailsRequest 
  */
+
 public class ShopDetailsRequest {
 
     @JsonProperty(value = "shop_name")

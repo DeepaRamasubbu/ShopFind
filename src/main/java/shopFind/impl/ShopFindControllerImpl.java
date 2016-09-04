@@ -2,8 +2,6 @@ package shopFind.impl;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.Valid;
@@ -26,9 +24,6 @@ public class ShopFindControllerImpl implements ShopFindController {
 
     @Inject
     private ShopService shopService;
-
-    private static final String template = "shopFind, %s!";
-    private final AtomicLong counter = new AtomicLong();
 
     /*
      * Method that implements the controller class addShop , calls the service addShop to add teh shop details
@@ -67,7 +62,7 @@ public class ShopFindControllerImpl implements ShopFindController {
 
                 return new ResponseEntity<ShopDetailsResponse>(response, HttpStatus.CREATED);
             } else
-                return new ResponseEntity<ShopDetailsResponse>(response, HttpStatus.OK);
+                return new ResponseEntity<ShopDetailsResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return null;
     }

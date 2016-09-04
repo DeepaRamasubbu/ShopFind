@@ -13,6 +13,7 @@ public class GeoCode {
     private String formatted_address;
     private Collection<AddressComponent> address_components = new ArrayList<AddressComponent>();
     private Geometry geometry;
+    @JsonProperty("partial_match")
     private boolean partialMatch;
 
     @JsonProperty("place_id")

@@ -14,6 +14,9 @@ import java.util.List;
 
 import javax.inject.Named;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import shopFind.model.AddressComponent;
@@ -32,8 +35,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Named
 public class ShopServiceImpl implements ShopService {
 
-    private static final String key = "AIzaSyCNL-l5qRr1zNaLooMVeeBSf2Vg-N_fJH0";
+    private static final String keyValue = "AIzaSyCNL-l5qRr1zNaLooMVeeBSf2Vg-N_fJH0";
     private final String USER_AGENT = "Mozilla/5.0";
+    private final String baseURL = "https://maps.googleapis.com/maps/api/geocode/json?";
+    private final String address = "address=";
+    private final String latLang = "latlng=";
+    private final String key = "&key=";
+    private static final Logger LOGGER = LoggerFactory.getLogger(ShopServiceImpl.class);
 
     /*
      * This method, gets the shop details and fetches latitude and longitude 
@@ -46,24 +54,27 @@ public class ShopServiceImpl implements ShopService {
         Response response = null;
         String geoCodingRequest = null;
         String geoResponse = null;
-        validateShopDetails(request, response);
+        response = validateShopDetails(request);
         if (response == null) {
-            geoCodingRequest = buildRequestForGeocoding(request);
             try {
+                geoCodingRequest = buildRequestForGeocoding(request);
                 geoResponse = callGeocoding(geoCodingRequest);
                 return buildResponse(geoResponse);
-            } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (ProtocolException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            } catch (Exception e) {
+                Throwable th = ExceptionUtils.getRootCause(e);
+                LOGGER.error("Exception occured while calling GeoCoding API");
+                Response res = new Response();
+                res.setErrorCode(Boolean.FALSE);
+                res.setErrorMessage("Something happened while calling GeoCoding API");
+                ShopDetailsResponse shopResponse = new ShopDetailsResponse();
+                shopResponse.setResponse(res);
+                return shopResponse;
             }
+        } else {
+            ShopDetailsResponse shopResponse = new ShopDetailsResponse();
+            shopResponse.setResponse(response);
+            return shopResponse;
         }
-        return null;
 
     }
 
@@ -81,45 +92,55 @@ public class ShopServiceImpl implements ShopService {
             reverseGeoCodingResponse = callReverseGeoCoding(reverseGeoCodingRequest);
             return buildReverseResponse(reverseGeoCodingResponse);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Throwable th = ExceptionUtils.getRootCause(e);
+            LOGGER.error("Exception occured while calling GeoCoding API");
+            Response res = new Response();
+            res.setErrorCode(Boolean.FALSE);
+            res.setErrorMessage("Something happened while calling GeoCoding API");
+            ShopDetailsResponse shopResponse = new ShopDetailsResponse();
+            shopResponse.setResponse(res);
+            return shopResponse;
         }
-        return null;
+
     }
 
-    private void validateShopDetails(ShopDetailsRequest request, Response response) {
+    private Response validateShopDetails(ShopDetailsRequest request) {
+        Response response = null;
         if (StringUtils.isEmpty(request.getShopAddress())) {
             response = new Response();
             response.setErrorCode(Boolean.FALSE);
             response.setErrorMessage("Empty shop address");
+            return response;
         }
+        return response;
     }
 
     private String buildRequestForGeocoding(ShopDetailsRequest request) {
 
-        //https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY
         StringBuilder url = new StringBuilder();
-        url.append("https://maps.googleapis.com/maps/api/geocode/json?address=");
+        url.append(baseURL);
+        url.append(address);
         url.append(request.getShopName());
         url.append(",");
         url.append(request.getShopAddress().getShopNumber());
         url.append(",");
         url.append(request.getShopAddress().getShopPostCode());
-        url.append("&key=");
         url.append(key);
-        System.out.println("url = " + url);
+        url.append(keyValue);
+        LOGGER.info("url = " + url);
         return url.toString();
     }
 
     private String buildRequestForReverseGeoCoding(Double latitude, Double longitude) {
         StringBuilder url = new StringBuilder();
-        url.append("https://maps.googleapis.com/maps/api/geocode/json?latlng=");
+        url.append(baseURL);
+        url.append(latLang);
         url.append(latitude);
         url.append(",");
         url.append(longitude);
-        url.append("&key=");
         url.append(key);
-        System.out.println("url = " + url);
+        url.append(keyValue);
+        LOGGER.info("url = " + url);
         return url.toString();
     }
 
@@ -135,8 +156,8 @@ public class ShopServiceImpl implements ShopService {
         int responseCode = 0;
         responseCode = con.getResponseCode();
 
-        System.out.println("\nSending 'GET' request to URL : " + url);
-        System.out.println("Response Code : " + responseCode);
+        LOGGER.info("\nSending 'GET' request to URL : " + url);
+        LOGGER.info("Response Code : " + responseCode);
 
         BufferedReader in = null;
         String inputLine;
@@ -155,12 +176,12 @@ public class ShopServiceImpl implements ShopService {
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
             }
-            System.out.println("Error = " + con.getResponseMessage());
+            LOGGER.error("Error = " + con.getResponseMessage());
 
         }
         in.close();
         //print result
-        System.out.println(response.toString());
+        LOGGER.info(response.toString());
         return response.toString();
     }
 
@@ -176,8 +197,8 @@ public class ShopServiceImpl implements ShopService {
         int responseCode = 0;
         responseCode = con.getResponseCode();
 
-        System.out.println("\nSending 'GET' request to URL : " + url);
-        System.out.println("Response Code : " + responseCode);
+        LOGGER.info("\nSending 'GET' request to URL : " + url);
+        LOGGER.info("Response Code : " + responseCode);
 
         BufferedReader in = null;
         String inputLine;
@@ -196,11 +217,11 @@ public class ShopServiceImpl implements ShopService {
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
             }
-            System.out.println("Error = " + con.getResponseMessage());
+            LOGGER.error("Error = " + con.getResponseMessage());
 
         }
         in.close();
-        System.out.println(response.toString());
+        LOGGER.info(response.toString());
         return response.toString();
     }
 
@@ -209,7 +230,7 @@ public class ShopServiceImpl implements ShopService {
         ShopDetailsResponse shopResponse = new ShopDetailsResponse();
         ObjectMapper objectMapper = new ObjectMapper();
         GeoCodeResponse geoCodeResponse = objectMapper.readValue(geoResponse, GeoCodeResponse.class);
-        System.out.println("REsponse = " + geoCodeResponse.getStatus());
+        LOGGER.info("REsponse = " + geoCodeResponse.getStatus());
         if ("OK".equals(geoCodeResponse.getStatus())) {
             List<GeoCode> geoCodeList = new ArrayList<GeoCode>();
             geoCodeList = geoCodeResponse.getResults();
@@ -221,7 +242,7 @@ public class ShopServiceImpl implements ShopService {
         } else {
             Response response = new Response();
             response.setErrorCode(Boolean.FALSE);
-            response.setErrorMessage("Some error");
+            response.setErrorMessage(geoCodeResponse.getStatus());
             shopResponse.setResponse(response);
         }
 
@@ -233,7 +254,7 @@ public class ShopServiceImpl implements ShopService {
         ShopDetailsResponse shopResponse = new ShopDetailsResponse();
         ObjectMapper objectMapper = new ObjectMapper();
         GeoCodeResponse geoCodeResponse = objectMapper.readValue(geoResponse, GeoCodeResponse.class);
-        System.out.println("REsponse = " + geoCodeResponse.getStatus());
+        LOGGER.info("REsponse = " + geoCodeResponse.getStatus());
         if ("OK".equals(geoCodeResponse.getStatus())) {
             List<GeoCode> geoCodeList = new ArrayList<GeoCode>();
             geoCodeList = geoCodeResponse.getResults();
@@ -271,7 +292,7 @@ public class ShopServiceImpl implements ShopService {
         } else {
             Response response = new Response();
             response.setErrorCode(Boolean.FALSE);
-            response.setErrorMessage("Some error");
+            response.setErrorMessage(geoCodeResponse.getStatus());
             shopResponse.setResponse(response);
         }
 
